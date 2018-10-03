@@ -84,16 +84,11 @@ class ChannelsListItem {
       .then(feed => {
         this.feed = feed;
         this.state.next(this.feed);
-        this.showFeed();
       });
   }
 
   onClick() {
     this.getData();
-  }
-
-  showFeed() {
-    console.log('showing feed');
   }
 }
 
@@ -107,13 +102,15 @@ class FeedListView {
   }
 
   init() {
-    this.$view = document.querySelector('.feed-container');
+    this.$view = document.querySelector('.feed-list-container');
   }
 
   render(state) {
+    this.$view.innerHTML = '';
     for (let i = 0; i < state.length; i++) {
       const item = state[i];
       const element = new FeedListItem({ title: item.title, id: item.id });
+      this.$view.appendChild(element.render());
     }
   }
 }
@@ -126,8 +123,11 @@ class FeedListItem {
 
   render() {
     this.element = document.createElement('div');
+    this.element.setAttribute('class', 'feed-list-item');
     const text = document.createTextNode(this.title);
     this.element.appendChild(text);
+
+    return this.element;
   }
 }
 
